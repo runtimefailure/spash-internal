@@ -1,8 +1,9 @@
+// version-2b1721d47abf49aa
+#pragma once
+
 #include <cstdint>
 #include <string>
-
 namespace FFlagOffsets {
-
     namespace FFlagList {
 		inline constexpr uintptr_t Pointer = 0x7ce13d8;
 		inline constexpr uintptr_t ToFlag = 0x30;

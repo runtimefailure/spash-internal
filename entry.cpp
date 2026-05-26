@@ -15,7 +15,7 @@ void bipass()
     static int seconds = 1;
     uintptr_t baseAddress = reinterpret_cast<uintptr_t>(GetModuleHandleA(nullptr));
     using PrintFunc = void(__cdecl*)(int, const char*, ...);
-    auto PrintD = reinterpret_cast<PrintFunc>(baseAddress + Offsets::Print);
+    auto PrintD = reinterpret_cast<PrintFunc>(baseAddress + Functions::print);
 
     char buf[64];
     if (seconds == 1)

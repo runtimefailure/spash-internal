@@ -1,22 +1,19 @@
+// version-2b1721d47abf49aa
 #pragma once
 
 #include <cstdint>
 
-/*
-	version-9377ee10133e4be3
-*/
-
 namespace Reversal
 {
-    static const uintptr_t ControlFlowGuard = 0x75CFC0;
-    static const uintptr_t BitMap = 0x1D26B8;
+    static const uintptr_t ControlFlowGuard = 0x0;
+    static const uintptr_t BitMap = 0x0;
 
     enum Offsets
     {
-        ByteShift 	= 12,
-        PageShift 	= 224,
-        BitMask 	= 255,
-        PageSize 	= 0x100000000,
-        PageMask 	= 0xFFFFFFFF
+        ByteShift 	= 0,
+        PageShift 	= 0,
+        BitMask 	= 0,
+        PageSize 	= 0x0,
+        PageMask 	= 0x0
     };
 };

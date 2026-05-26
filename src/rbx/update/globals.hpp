@@ -18,7 +18,7 @@ namespace exploit {
 	inline std::filesystem::path workspace		= exploit / "workspace";
 	inline std::filesystem::path autoexec		= exploit / "autoexec";
 	inline std::filesystem::path logs			= exploit / "logs";
-	inline std::string build 					= "9377ee10133e4be3";
+	inline std::string build 					= "2b1721d47abf49aa";
 	inline std::string name 					= "diegosploit";
 
 	namespace internal {
