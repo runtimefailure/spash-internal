@@ -18,11 +18,12 @@ void bipass()
     uintptr_t baseAddress = reinterpret_cast<uintptr_t>(GetModuleHandleA(nullptr));
     using printfunc = void(__cdecl*)(int, const char*, ...);
     auto print = reinterpret_cast<printfunc>(baseAddress + Functions::print);
+	auto datamodel = taskscheduler::get_datamodel();
 
-    print(1, "datamodel: %s", 			(taskscheduler::get_datamodel());
-	print(1, "scriptcontext: %s", 		(taskscheduler::get_scriptcontext(taskscheduler::get_datamodel()));
-	print(1, "gameloaded: %s",			(taskscheduler::get_gameloaded(taskscheduler::get_datamodel()));
-	print(0, "%s loaded", 				(exploit::name));
+    print(1, "datamodel: %s", 			taskscheduler::get_datamodel());
+	print(1, "scriptcontext: %s", 		taskscheduler::get_scriptcontext(datamodel));
+	print(1, "gameloaded: %s",			taskscheduler::get_gameloaded(datamodel));
+	print(0, "%s loaded", 				exploit::name);
 }
 
 
