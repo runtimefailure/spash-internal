@@ -1,5 +1,7 @@
 /*  copyright (c) 2069 - all rights resolved 
     diego paste services ud.
+
+	see credits.md ;-;
 */
 
 #pragma once
@@ -13,16 +15,14 @@
 
 void bipass()
 {
-    static int seconds = 1;
     uintptr_t baseAddress = reinterpret_cast<uintptr_t>(GetModuleHandleA(nullptr));
     using printfunc = void(__cdecl*)(int, const char*, ...);
     auto print = reinterpret_cast<printfunc>(baseAddress + Functions::print);
 
-    print(1, "datamodel: 		", 			(taskscheduler::get_datamodel());
-	print(1, "scriptcontext: 	", 			(taskscheduler::get_scriptcontext(taskscheduler::get_datamodel()));
-	print(1, "gameloaded:		",			(taskscheduler::get_gameloaded(taskscheduler::get_datamodel()));
-
-    seconds++;
+    print(1, "datamodel: %s", 			(taskscheduler::get_datamodel());
+	print(1, "scriptcontext: %s", 		(taskscheduler::get_scriptcontext(taskscheduler::get_datamodel()));
+	print(1, "gameloaded: %s",			(taskscheduler::get_gameloaded(taskscheduler::get_datamodel()));
+	print(0, "%s loaded", 				(exploit::name));
 }
 
 
@@ -32,7 +32,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
     {
         DisableThreadLibraryCalls(hModule);
 		std::thread(bipass).detach();
-		//MessageBoxA(NULL, "injected",  "diegosploit", MB_OK | MB_ICONERROR | MB_TOPMOST);
+		//MessageBoxA(NULL, "injected",  exploit::name, MB_OK | MB_ICONERROR | MB_TOPMOST);
     }
     return TRUE;
 }

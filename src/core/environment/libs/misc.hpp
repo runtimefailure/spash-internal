@@ -24,11 +24,28 @@
 #include <rbx/taskscheduler/scheduler.hpp>
 #include <rbx/update/globals.hpp>
 
-int getthreadidentity(lua_State* L) {
-    auto extra_space = reinterpret_cast<RobloxExtraSpace*>(reinterpret_cast<char*>(L) - sizeof(RobloxExtraSpace));
-    lua_pushnumber(L, static_cast<double>(extra_space->Identity));
+__forceinline bool CheckMemory(uintptr_t address) {
+    if (address < 0x10000 || address > 0x7FFFFFFFFFFF) {
+        return false;
+    }
 
-    return 1;
+    MEMORY_BASIC_INFORMATION mbi;
+    if (VirtualQuery(reinterpret_cast<void*>(address), &mbi, sizeof(mbi)) == 0) {
+        return false;
+    }
+
+    if (mbi.Protect & PAGE_NOACCESS || mbi.State != MEM_COMMIT) {
+        return false;
+    }
+
+    return true;
+}
+
+std::string read_bytecode_misc(uintptr_t addr) {
+    auto str = addr + 0x10;
+    auto len = *(size_t*)(str + 0x10);
+    auto data = *(size_t*)(str + 0x18) > 0xf ? *(uintptr_t*)(str) : str;
+    return std::string((char*)(data), len);
 }
 
 static void setidentity(lua_State* L, int identity)
@@ -42,6 +59,13 @@ static void setidentity(lua_State* L, int identity)
     void* src = Roblox::GetIdentityStruct(table_ptr);
     constexpr uint64_t kMask = 0xFFFFFFFFFFFFFF00ull;
     Roblox::Impersonator(Ignore, src, &identity, kMask, 0ull);
+}
+
+int getthreadidentity(lua_State* L) {
+    auto extra_space = reinterpret_cast<RobloxExtraSpace*>(reinterpret_cast<char*>(L) - sizeof(RobloxExtraSpace));
+    lua_pushnumber(L, static_cast<double>(extra_space->Identity));
+
+    return 1;
 }
 int setthreadidentity(lua_State* L)
 {
@@ -59,18 +83,15 @@ int identifyexecutor(lua_State* L)
     lua_pushstring(L, exploit::build);
     return 2;
 }
-
 int getexecutorname(lua_State* L)
 {
     lua_pushstring(L, exploit::name);
     return 1;
 }
-
 int getgenv(lua_State* L) {
     lua_pushvalue(L, LUA_ENVIRONINDEX);
     return 1;
 }
-
 int getrenv(lua_State* L) {
     lua_State* RobloxState = shared::LocalState;
     LuaTable* clone = luaH_clone(L, RobloxState->gt);
@@ -89,7 +110,6 @@ int getrenv(lua_State* L) {
     lua_setfield(L, -2, "shared");
     return 1;
 }
-
 int getreg(lua_State* L) {
 
     lua_rawcheckstack(L, 1);
@@ -99,22 +119,6 @@ int getreg(lua_State* L) {
     return 1;
 };
 
-__forceinline bool CheckMemory(uintptr_t address) {
-    if (address < 0x10000 || address > 0x7FFFFFFFFFFF) {
-        return false;
-    }
-
-    MEMORY_BASIC_INFORMATION mbi;
-    if (VirtualQuery(reinterpret_cast<void*>(address), &mbi, sizeof(mbi)) == 0) {
-        return false;
-    }
-
-    if (mbi.Protect & PAGE_NOACCESS || mbi.State != MEM_COMMIT) {
-        return false;
-    }
-
-    return true;
-}
 int getsenv(lua_State* s) {
     luaL_checktype(s, 1, LUA_TUSERDATA);
 
@@ -215,14 +219,6 @@ static int gethui(lua_State* L)
     lua_remove(L, -2);
     return 1;
 }
-
-std::string read_bytecode_misc(uintptr_t addr) {
-    auto str = addr + 0x10;
-    auto len = *(size_t*)(str + 0x10);
-    auto data = *(size_t*)(str + 0x18) > 0xf ? *(uintptr_t*)(str) : str;
-    return std::string((char*)(data), len);
-}
-
 int getscriptbytecode(lua_State* L) {
     luaL_checktype(L, 1, LUA_TUSERDATA);
 
@@ -256,7 +252,6 @@ int getscriptbytecode(lua_State* L) {
     lua_pushlstring(L, decompressed.data(), decompressed.size());
     return 1;
 }
-
 int getrunningscripts(lua_State* L) {
 
     int threadCount = 0;
@@ -307,7 +302,6 @@ int getrunningscripts(lua_State* L) {
 
     return 1;
 }
-
 int getscripts(lua_State* L) {
     struct instancecontext {
         lua_State* L;
@@ -412,6 +406,7 @@ int getgc(lua_State* L) {
 
     return 1;
 };
+
 namespace misc {
     int getobjects(lua_State* L)
     {
@@ -570,16 +565,16 @@ namespace misc {
 
     void initialize(lua_State* L)
     {
-        Function(L, "setthreadidentity", setthreadidentity);
-        Function(L, "getscriptbytecode", getscriptbytecode);
-        Function(L, "getsenv", getsenv);
-        Function(L, "getthreadidentity", getthreadidentity);
-        Function(L, "getgenv", getgenv);
-        Function(L, "getrenv", getrenv);
-        Function(L, "getreg", getreg);
-        Function(L, "gethui", gethui);
-        Function(L, "fireproximityprompt", fireproximityprompt);
-        Function(L, "fireclickdetector", fireclickdetector);
-        Function(L, "getloadedmodules", getloadedmodules);
+        Function(L, "setthreadidentity", 	setthreadidentity);
+        Function(L, "getscriptbytecode", 	getscriptbytecode);
+        Function(L, "getthreadidentity", 	getthreadidentity);
+        Function(L, "getsenv", 				getsenv);
+        Function(L, "getgenv", 				getgenv);
+        Function(L, "getrenv", 				getrenv);
+        Function(L, "getreg", 				getreg);
+        Function(L, "gethui", 				gethui);
+        Function(L, "fireproximityprompt", 	fireproximityprompt);
+        Function(L, "fireclickdetector", 	fireclickdetector);
+        Function(L, "getloadedmodules", 	getloadedmodules);
     }
 }

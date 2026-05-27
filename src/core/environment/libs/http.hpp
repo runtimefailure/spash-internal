@@ -151,11 +151,11 @@ namespace http
         SessionIdJson["GameId"] = GameId;
         SessionIdJson["PlaceId"] = PlaceId;
 
-        Headers.insert({ "User-Agent", "diegosploit/" + exploit::build });
+        Headers.insert({ "User-Agent", exploit::name + "/" + exploit::build });
         Headers.insert({ "Roblox-Session-Id", SessionIdJson.dump() });
         Headers.insert({ "Roblox-Place-Id", PlaceId });
         Headers.insert({ "Roblox-Game-Id", GameId });
-        Headers.insert({ "Exploit-Identifier", "diegosploit" });
+        Headers.insert({ "Exploit-Identifier", exploit::name });
         Headers.insert({ "Exploit-Guid", HWID.value_or("Unknown") });
         Headers.insert({ "Diego-Public-Fingerprint", HWID.value_or("Unknown") });
         Headers.insert({ "Accept", "*/*" });
@@ -322,7 +322,7 @@ namespace http
 
         Headers.insert({ "User-Agent", "diegosploit/" + exploit::build });
         Headers.insert({ "Roblox-Session-Id", SessionIdJson.dump() });
-        Headers.insert({ "Diego-Public-Fingerprint", HWID.value_or("Unknown") });
+        Headers.insert({ "Public-Fingerprint", HWID.value_or("Unknown") });
 
         return YieldExecution(L, [=]() -> std::function<int(lua_State*)>
             {
@@ -370,72 +370,72 @@ namespace http
                         std::string Phrase;
                         switch (Response.status_code)
                         {
-                        case 100: Phrase = "Continue"; break;
-                        case 101: Phrase = "Switching Protocols"; break;
-                        case 102: Phrase = "Processing"; break;
-                        case 103: Phrase = "Early Hints"; break;
-
-                        case 200: Phrase = "OK"; break;
-                        case 201: Phrase = "Created"; break;
-                        case 202: Phrase = "Accepted"; break;
-                        case 203: Phrase = "Non-Authoritative Information"; break;
-                        case 204: Phrase = "No Content"; break;
-                        case 205: Phrase = "Reset Content"; break;
-                        case 206: Phrase = "Partial Content"; break;
-                        case 207: Phrase = "Multi-Status"; break;
-                        case 208: Phrase = "Already Reported"; break;
-                        case 226: Phrase = "IM Used"; break;
-
-                        case 300: Phrase = "Multiple Choices"; break;
-                        case 301: Phrase = "Moved Permanently"; break;
-                        case 302: Phrase = "Found"; break;
-                        case 303: Phrase = "See Other"; break;
-                        case 304: Phrase = "Not Modified"; break;
-                        case 305: Phrase = "Use Proxy"; break;
-                        case 307: Phrase = "Temporary Redirect"; break;
-                        case 308: Phrase = "Permanent Redirect"; break;
-
-                        case 400: Phrase = "Bad Request"; break;
-                        case 401: Phrase = "Unauthorized"; break;
-                        case 402: Phrase = "Payment Required"; break;
-                        case 403: Phrase = "Forbidden"; break;
-                        case 404: Phrase = "Not Found"; break;
-                        case 405: Phrase = "Method Not Allowed"; break;
-                        case 406: Phrase = "Not Acceptable"; break;
-                        case 407: Phrase = "Proxy Authentication Required"; break;
-                        case 408: Phrase = "Request Timeout"; break;
-                        case 409: Phrase = "Conflict"; break;
-                        case 410: Phrase = "Gone"; break;
-                        case 411: Phrase = "Length Required"; break;
-                        case 412: Phrase = "Precondition Failed"; break;
-                        case 413: Phrase = "Payload Too Large"; break;
-                        case 414: Phrase = "URI Too Long"; break;
-                        case 415: Phrase = "Unsupported Media Type"; break;
-                        case 416: Phrase = "Range Not Satisfiable"; break;
-                        case 417: Phrase = "Expectation Failed"; break;
-                        case 418: Phrase = "I'm a teapot"; break;
-                        case 422: Phrase = "Unprocessable Entity"; break;
-                        case 423: Phrase = "Locked"; break;
-                        case 424: Phrase = "Failed Dependency"; break;
-                        case 426: Phrase = "Upgrade Required"; break;
-                        case 428: Phrase = "Precondition Required"; break;
-                        case 429: Phrase = "Too Many Requests"; break;
-                        case 431: Phrase = "Request Header Fields Too Large"; break;
-                        case 451: Phrase = "Unavailable For Legal Reasons"; break;
-
-                        case 500: Phrase = "Internal Server Error"; break;
-                        case 501: Phrase = "Not Implemented"; break;
-                        case 502: Phrase = "Bad Gateway"; break;
-                        case 503: Phrase = "Service Unavailable"; break;
-                        case 504: Phrase = "Gateway Time-out"; break;
-                        case 505: Phrase = "HTTP Version Not Supported"; break;
-                        case 506: Phrase = "Variant Also Negotiates"; break;
-                        case 507: Phrase = "Insufficient Storage"; break;
-                        case 508: Phrase = "Loop Detected"; break;
-                        case 510: Phrase = "Not Extended"; break;
-                        case 511: Phrase = "Network Authentication Required"; break;
-
-                        default: Phrase = std::string(); break;
+                        	case 100: Phrase = "Continue"; break;
+                        	case 101: Phrase = "Switching Protocols"; break;
+                        	case 102: Phrase = "Processing"; break;
+                        	case 103: Phrase = "Early Hints"; break;
+							
+                        	case 200: Phrase = "OK"; break;
+                        	case 201: Phrase = "Created"; break;
+                        	case 202: Phrase = "Accepted"; break;
+                        	case 203: Phrase = "Non-Authoritative Information"; break;
+                        	case 204: Phrase = "No Content"; break;
+                        	case 205: Phrase = "Reset Content"; break;
+                        	case 206: Phrase = "Partial Content"; break;
+                        	case 207: Phrase = "Multi-Status"; break;
+                        	case 208: Phrase = "Already Reported"; break;
+                        	case 226: Phrase = "IM Used"; break;
+							
+                        	case 300: Phrase = "Multiple Choices"; break;
+                        	case 301: Phrase = "Moved Permanently"; break;
+                        	case 302: Phrase = "Found"; break;
+                        	case 303: Phrase = "See Other"; break;
+                        	case 304: Phrase = "Not Modified"; break;
+                        	case 305: Phrase = "Use Proxy"; break;
+                        	case 307: Phrase = "Temporary Redirect"; break;
+                        	case 308: Phrase = "Permanent Redirect"; break;
+							
+                        	case 400: Phrase = "Bad Request"; break;
+                        	case 401: Phrase = "Unauthorized"; break;
+                        	case 402: Phrase = "Payment Required"; break;
+                        	case 403: Phrase = "Forbidden"; break;
+                        	case 404: Phrase = "Not Found"; break;
+                        	case 405: Phrase = "Method Not Allowed"; break;
+                        	case 406: Phrase = "Not Acceptable"; break;
+                        	case 407: Phrase = "Proxy Authentication Required"; break;
+                        	case 408: Phrase = "Request Timeout"; break;
+                        	case 409: Phrase = "Conflict"; break;
+                        	case 410: Phrase = "Gone"; break;
+                        	case 411: Phrase = "Length Required"; break;
+                        	case 412: Phrase = "Precondition Failed"; break;
+                        	case 413: Phrase = "Payload Too Large"; break;
+                        	case 414: Phrase = "URI Too Long"; break;
+                        	case 415: Phrase = "Unsupported Media Type"; break;
+                        	case 416: Phrase = "Range Not Satisfiable"; break;
+                        	case 417: Phrase = "Expectation Failed"; break;
+                        	case 418: Phrase = "I'm a teapot"; break;
+                        	case 422: Phrase = "Unprocessable Entity"; break;
+                        	case 423: Phrase = "Locked"; break;
+                        	case 424: Phrase = "Failed Dependency"; break;
+                        	case 426: Phrase = "Upgrade Required"; break;
+                        	case 428: Phrase = "Precondition Required"; break;
+                        	case 429: Phrase = "Too Many Requests"; break;
+                        	case 431: Phrase = "Request Header Fields Too Large"; break;
+                        	case 451: Phrase = "Unavailable For Legal Reasons"; break;
+							
+                        	case 500: Phrase = "Internal Server Error"; break;
+                        	case 501: Phrase = "Not Implemented"; break;
+                        	case 502: Phrase = "Bad Gateway"; break;
+                        	case 503: Phrase = "Service Unavailable"; break;
+                        	case 504: Phrase = "Gateway Time-out"; break;
+                        	case 505: Phrase = "HTTP Version Not Supported"; break;
+                        	case 506: Phrase = "Variant Also Negotiates"; break;
+                        	case 507: Phrase = "Insufficient Storage"; break;
+                        	case 508: Phrase = "Loop Detected"; break;
+                        	case 510: Phrase = "Not Extended"; break;
+                        	case 511: Phrase = "Network Authentication Required"; break;
+							
+                        	default: Phrase = std::string(); break;
                         }
                         lua_pushstring(L, Phrase.c_str());
                         lua_setfield(L, -2, "StatusMessage");
@@ -468,12 +468,12 @@ namespace http
 
     void initialize(lua_State* L)
     {
-        Function(L, "httpget", http::httpget);
-        Function(L, "request", http::request);
-        Function(L, "http_request", http::request);
+        Function(L, "httpget", 			http::httpget);
+        Function(L, "request", 			http::request);
+        Function(L, "http_request", 	http::request);
 
         lua_newtable(L);
-        TableFunction(L, "request", http::request);
+        TableFunction(L, "request", 	http::request);
         lua_setglobal(L, "http");
     }
 }

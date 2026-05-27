@@ -278,7 +278,7 @@ namespace file {
 
         std::filesystem::path custom_assets = std::filesystem::current_path()
             / "Extracontent"
-            / "diegosploit";
+            / exploit::name;
 
         std::filesystem::path custom_asset = custom_assets / path.filename();
 
@@ -294,23 +294,23 @@ namespace file {
             return 0;
         }
 
-        std::string Final = "rbxasset://" + std::string("diegosploit") + "/" + custom_asset.filename().string();
+        std::string Final = "rbxasset://" + std::string(exploit::name) + "/" + custom_asset.filename().string();
         lua_pushlstring(L, Final.c_str(), Final.size());
         return 1;
     }
 
     void initialize(lua_State* L)
     {
-        Function(L, "makefolder", file::makefolder);
-        Function(L, "isfile", file::isfile);
-        Function(L, "readfile", file::readfile);
-        Function(L, "writefile", file::writefile);
-        Function(L, "listfiles", file::listfiles);
-        Function(L, "isfolder", file::isfolder);
-        Function(L, "delfolder", file::delfolder);
-        Function(L, "delfile", file::delfile);
-        Function(L, "loadfile", file::loadfile);
-        Function(L, "appendfile", file::appendfile);
-        Function(L, "getcustomasset", file::getcustomasset);
+        Function(L, "makefolder", 		file::makefolder);
+        Function(L, "isfile", 			file::isfile);
+        Function(L, "readfile", 		file::readfile);
+        Function(L, "writefile", 		file::writefile);
+        Function(L, "listfiles", 		file::listfiles);
+        Function(L, "isfolder", 		file::isfolder);
+        Function(L, "delfolder", 		file::delfolder);
+        Function(L, "delfile", 			file::delfile);
+        Function(L, "loadfile", 		file::loadfile);
+        Function(L, "appendfile", 		file::appendfile);
+        Function(L, "getcustomasset", 	file::getcustomasset);
     }
 }

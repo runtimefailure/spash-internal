@@ -45,7 +45,7 @@ namespace lz4
 
     void initialize(lua_State* L)
     {
-        Function(L, "lz4compress", lz4compress);
-        Function(L, "lz4decompress", lz4decompress);
+        Function(L, "lz4compress", 		lz4::lz4compress);
+        Function(L, "lz4decompress", 	lz4::lz4decompress);
     }
 }
