@@ -25,12 +25,12 @@ class BytecodeEncoder : public Luau::BytecodeEncoder
 std::string execution::compile(std::string Source)
 {
 	auto BytecodeEncoding = BytecodeEncoder();
-	static const char* CommonGlobals[] = { "Game", "Workspace", "game", "plugin", "script", "shared", "workspace", "_G", "_ENV", nullptr };
+	static const char* common[] = { "Game", "Workspace", "game", "plugin", "script", "shared", "workspace", "_G", "_ENV", nullptr };
 
 	Luau::CompileOptions Options;
 	Options.debugLevel = 1;
 	Options.optimizationLevel = 1;
-	Options.mutableGlobals = CommonGlobals;
+	Options.mutableGlobals = common;
 	Options.vectorLib = "Vector3";
 	Options.vectorCtor = "new";
 	Options.vectorType = "Vector3";
@@ -38,9 +38,9 @@ std::string execution::compile(std::string Source)
 	return Luau::compile(Source, Options, {}, &BytecodeEncoding);
 }
 
-void execution::execute(lua_State* L, std::string Script)
+void execution::execute(lua_State* L, std::string script)
 {
-	if (Script.empty())
+	if (script.empty())
 		return;
 
 	int OriginalTop = lua_gettop(L);
@@ -50,7 +50,7 @@ void execution::execute(lua_State* L, std::string Script)
 	luaL_sandboxthread(executionThread);
 	taskscheduler::set_thread(executionThread, 8, 8);
 
-	std::string Bytecode = execution::compile(Script);
+	std::string Bytecode = execution::compile(script);
 	lua_pushcclosure(executionThread, Roblox::TaskDefer, "task.defer", 0);
 	if (luau_load(executionThread, "", Bytecode.c_str(), Bytecode.length(), 0) != LUA_OK)
 	{

@@ -10,10 +10,10 @@ uintptr_t taskscheduler::get_datamodel()
 	uintptr_t visual = * reinterpret_cast<uintptr_t *>(Offsets::VisualEngine::Pointer);
 	if (!visual)
 		return 0;
-	uintptr_t f_datamodel = * reinterpret_cast<uintptr_t *>(VisualEngine + Offsets::VisualEngine::FakeDatamodel);
+	uintptr_t f_datamodel = * reinterpret_cast<uintptr_t *>(visual + Offsets::VisualEngine::FakeDatamodel);
 	if (!f_datamodel)
 		return 0;
-	uintptr_t datamodel = * reinterpret_cast<uintptr_t *>(FakeDatamodel + Offsets::VisualEngine::Datamodel);
+	uintptr_t datamodel = * reinterpret_cast<uintptr_t *>(f_datamodel + Offsets::VisualEngine::Datamodel);
 	if (!datemodel)
 		return 0;
 
@@ -24,7 +24,7 @@ uintptr_t taskscheduler::get_scriptcontext(uintptr_t datamodel)
 {
 	if (!datemodel)
 		return 0;
-	uintptr_t childrenpointer = * reinterpret_cast<uintptr_t *>(Datamodel + Offsets::Instance::Children);
+	uintptr_t childrenpointer = * reinterpret_cast<uintptr_t *>(datamodel + Offsets::Instance::Children);
 	if (!childrenpointer)
 		return 0;
 	uintptr_t childrenstart = * reinterpret_cast<uintptr_t *>(childrenpointer);
@@ -42,7 +42,7 @@ uintptr_t taskscheduler::get_scriptcontext(uintptr_t datamodel)
 		uintptr_t child = * reinterpret_cast<uintptr_t *>(childpointer);
 		if (!child)
 			continue;
-		uintptr_t classdescriptor = * reinterpret_cast<uintptr_t *>(Child + Offsets::Instance::ClassDescriptor);
+		uintptr_t classdescriptor = * reinterpret_cast<uintptr_t *>(child + Offsets::Instance::ClassDescriptor);
 		if (!classdescriptor) {
 			continue;
 			const char* classname = * reinterpret_cast<const char* *>(classdescriptor + Offsets::Instance::ClassName);
@@ -69,7 +69,7 @@ uintptr_t taskscheduler::get_gameloaded(uintptr_t datamodel)
 {
 	if (!datamodel)
 		return 0;
-	return * reinterpret_cast<int*>(Datamodel + Offsets::Datamodel::GameLoadedStatus);
+	return * reinterpret_cast<int*>(datamodel + Offsets::Datamodel::GameLoadedStatus);
 }
 
 uintptr_t taskscheduler::get_globalstate(uintptr_t scriptcontext, uintptr_t* identity, uintptr_t* script)
@@ -81,29 +81,29 @@ uintptr_t taskscheduler::get_globalstate(uintptr_t scriptcontext, uintptr_t* ide
 
 uintptr_t taskscheduler::get_jobbyname(std::string jobname)
 {
-	uintptr_t TaskScheduler = * reinterpret_cast<uintptr_t *>(Offsets::TaskScheduler::Pointer);
-	if (!TaskScheduler)
+	uintptr_t taskscheduler = * reinterpret_cast<uintptr_t *>(Offsets::TaskScheduler::Pointer);
+	if (!taskscheduler)
 		return 0;
-	uintptr_t JobsStart = * reinterpret_cast<uintptr_t *>(TaskScheduler + Offsets::TaskScheduler::JobsStart);
-	if (!JobsStart)
+	uintptr_t jobsstart = * reinterpret_cast<uintptr_t *>(taskscheduler + Offsets::TaskScheduler::JobsStart);
+	if (!jobsstart)
 		return 0;
-	uintptr_t JobsEnd = * reinterpret_cast<uintptr_t *>(TaskScheduler + Offsets::TaskScheduler::JobsStart + sizeof(uintptr_t));
-	if (!JobsEnd)
+	uintptr_t jobsend = * reinterpret_cast<uintptr_t *>(taskscheduler + Offsets::TaskScheduler::JobsStart + sizeof(uintptr_t));
+	if (!jobsend)
 		return 0;
 	
-	uintptr_t JobResult = 0;
-	for (uintptr_t JobPointer = JobsStart; JobPointer < JobsEnd; JobPointer += 0x10)
+	uintptr_t jobresult = 0;
+	for (uintptr_t jobpointer = jobsstart; jobpointer < jobsend; jobpointer += 0x10)
 	{
-		if (!JobPointer)
+		if (!jobpointer)
 			continue;
-		uintptr_t Job = * reinterpret_cast<uintptr_t *>(JobPointer);
-		if (!Job)
+		uintptr_t job = * reinterpret_cast<uintptr_t *>(jobpointer);
+		if (!job)
 			continue;
-		const char* JobName = * reinterpret_cast<const char* *>(Job + Offsets::TaskScheduler::JobName);
-		if (!JobName)
+		const char* jobname = * reinterpret_cast<const char* *>(job + Offsets::TaskScheduler::jobName);
+		if (!jobname)
 			continue;
 		if (std::string(JobName) == jobname) {
-			result = Job;
+			result = job;
 			break;
 		}
 	}
@@ -113,34 +113,34 @@ uintptr_t taskscheduler::get_jobbyname(std::string jobname)
 
 uintptr_t taskscheduler::get_specificjobbyname(std::string jobname, uintptr_t offset, uintptr_t datamodel)
 {
-	uintptr_t TaskScheduler = * reinterpret_cast<uintptr_t *>(Offsets::TaskScheduler::Pointer);
-	if (!TaskScheduler)
+	uintptr_t taskscheduler = * reinterpret_cast<uintptr_t *>(Offsets::TaskScheduler::Pointer);
+	if (!taskscheduler)
 		return 0;
-	uintptr_t JobsStart = * reinterpret_cast<uintptr_t *>(TaskScheduler + Offsets::TaskScheduler::JobsStart);
-	if (!JobsStart)
+	uintptr_t jobsstart = * reinterpret_cast<uintptr_t *>(taskscheduler + Offsets::TaskScheduler::JobsStart);
+	if (!jobsstart)
 		return 0;
-	uintptr_t JobsEnd = * reinterpret_cast<uintptr_t *>(TaskScheduler + Offsets::TaskScheduler::JobsStart + sizeof(uintptr_t));
-	if (!JobsEnd)
+	uintptr_t jobsend = * reinterpret_cast<uintptr_t *>(taskscheduler + Offsets::TaskScheduler::JobsStart + sizeof(uintptr_t));
+	if (!jobsend)
 		return 0;
 
 	uintptr_t result = 0;
-	for (uintptr_t JobPointer = JobsStart; JobPointer < JobsEnd; JobPointer += 0x10)
+	for (uintptr_t jobpointer = jobsstart; jobpointer < jobsend; jobpointer += 0x10)
 	{
-		uintptr_t Job = * reinterpret_cast<uintptr_t *>(JobPointer);
-		if (!Job)
+		uintptr_t job = * reinterpret_cast<uintptr_t *>(jobpointer);
+		if (!job)
 			continue;
-		std::string JobName = * reinterpret_cast<std::string*>(Job + Offsets::TaskScheduler::JobName);
-		if (JobName.empty())
+		std::string jobname = * reinterpret_cast<std::string*>(job + Offsets::TaskScheduler::JobName);
+		if (jobname.empty())
 			continue;
-		if (JobName == jobname) {
-			uintptr_t Instance = * reinterpret_cast<uintptr_t *>(Job + offset);
-			if (!Instance)
+		if (jobname == jobname) {
+			uintptr_t instance = * reinterpret_cast<uintptr_t *>(job + offset);
+			if (!instance)
 				continue;
-			uintptr_t PossibleDatamodel = * reinterpret_cast<uintptr_t *>(Instance + Offsets::Instance::Parent);
-			if (!PossibleDatamodel)
+			uintptr_t p_datamodel = * reinterpret_cast<uintptr_t *>(instance + Offsets::Instance::Parent);
+			if (!p_datamodel)
 				continue;
-			if (PossibleDatamodel == datamodel) {
-				result = Job;
+			if (p_datamodel == datamodel) {
+				result = job;
 				break;
 			}
 		}
@@ -195,22 +195,22 @@ uintptr_t taskscheduler::get_capabilities(int identity)
 
 uintptr_t taskscheduler::set_identity(lua_State* thread, int identity, bool isinstance)
 {
-	Thread->userdata->Identity = 9;
+	Thread->userdata->Identity = 8;
 	Thread->userdata->Capabilities = get_capabilities(identity);
 
 	if (isinstance) {
-		uintptr_t IdentityPointer = * reinterpret_cast<uintptr_t *>(Offsets::TLS::IdentityStructure::Pointer);
-		if (!IdentityPointer)
+		uintptr_t identity_ptr = * reinterpret_cast<uintptr_t *>(Offsets::TLS::IdentityStructure::Pointer);
+		if (!identity_ptr)
 			return;
-		uintptr_t IdentityStructure = functions->GetTLSPointer(IdentityPointer);
-		if (!IdentityStructure)
+		uintptr_t identity_struct = functions->GetTLSPointer(identity_ptr);
+		if (!identity_struct)
 			return;
-		* reinterpret_cast<int32_t *>(IdentityStructure) = identity;
-		* reinterpret_cast<uintptr_t *>(IdentityStructure + Offsets::TLS::IdentityStructure::Capabilities) = get_capabilities(identity);
+		* reinterpret_cast<int32_t *>(identity_struct) = identity;
+		* reinterpret_cast<uintptr_t *>(identity_struct + Offsets::TLS::IdentityStructure::Capabilities) = get_capabilities(identity);
 	}
 }
 
 void taskscheduler::request(std::string script)
 {
-	execution::ExecuteScript(RBX::ExecutorState, script);
+	execution::execute(exploit::inject_state, script);
 }

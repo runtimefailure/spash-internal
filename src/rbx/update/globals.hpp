@@ -4,6 +4,11 @@
 #include <filesystem>
 #include <string>
 
+#include <lualib.h>
+#include <lobject.h>
+#include <lstate.h>
+#include <lapi.h>
+
 namespace exploit {
 	inline std::filesystem::path get_base_path() {
 		wchar_t path[MAX_PATH];
@@ -20,6 +25,7 @@ namespace exploit {
 	inline std::filesystem::path logs			= exploit / "logs";
 	inline std::string build 					= "2b1721d47abf49aa";
 	inline std::string name 					= "diegosploit";
+	inline lua_State* inject_state;
 
 	namespace internal {
 		namespace ui {

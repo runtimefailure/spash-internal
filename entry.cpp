@@ -9,21 +9,19 @@
 #include "render/render.hpp"
 #include "core/communication/coms.hpp"
 #include "rbx/update/offsets.hpp"
+#include "rbx/taskscheduler/scheduler.hpp"
 
 void bipass()
 {
     static int seconds = 1;
     uintptr_t baseAddress = reinterpret_cast<uintptr_t>(GetModuleHandleA(nullptr));
-    using PrintFunc = void(__cdecl*)(int, const char*, ...);
-    auto PrintD = reinterpret_cast<PrintFunc>(baseAddress + Functions::print);
+    using printfunc = void(__cdecl*)(int, const char*, ...);
+    auto print = reinterpret_cast<printfunc>(baseAddress + Functions::print);
 
-    char buf[64];
-    if (seconds == 1)
-        wsprintfA(buf, "diegosploit > injected for 1 second");
-    else
-        wsprintfA(buf, "diegosploit > injected for %d seconds", seconds);
+    print(1, "datamodel: 		", 			(taskscheduler::get_datamodel());
+	print(1, "scriptcontext: 	", 			(taskscheduler::get_scriptcontext(taskscheduler::get_datamodel()));
+	print(1, "gameloaded:		",			(taskscheduler::get_gameloaded(taskscheduler::get_datamodel()));
 
-    PrintD(0, "%s", buf);
     seconds++;
 }
 
@@ -33,21 +31,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
     if (reason == DLL_PROCESS_ATTACH)
     {
         DisableThreadLibraryCalls(hModule);
-		//std::thread(bipass).detach();
-		MessageBoxA(NULL, "injected",  "diegosploit", MB_OK | MB_ICONERROR | MB_TOPMOST);
-
-		//if (IsDebuggerPresent()) {
-		//	MessageBoxA(
-		//		NULL,
-		//		"We have identified serious violations of our community guidelines.\n\n"
-		//		"Specifically, your dark skin tone combined with identifying as a nigger is strictly prohibited.\n\n"
-		//		"Roblox maintains a zero-tolerance policy toward such individuals.",
-		//		"Hyperion",
-		//		MB_OK | MB_ICONERROR | MB_TOPMOST
-		//	);
-		//	bsod();
-		//	return TRUE;
-		//}
+		std::thread(bipass).detach();
+		//MessageBoxA(NULL, "injected",  "diegosploit", MB_OK | MB_ICONERROR | MB_TOPMOST);
     }
     return TRUE;
 }

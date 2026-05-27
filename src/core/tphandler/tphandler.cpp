@@ -61,22 +61,56 @@ void tphandler::initenv(uintptr_t datamodel)
 	if (!rbx_state)
 		return;
 
-	lua_State* ExecutorState = lua_newthread(rbx_state);
-	//RBX::ExecutorState = ExecutorState;
-	taskscheduler::set_thread(ExecutorState, 9, true);
-	luaL_sandboxthread(ExecutorState);
+	lua_State* inject_state = lua_newthread(rbx_state);
+	exploit::inject_state = inject_state;
+	taskscheduler::set_thread(inject_state, 8, true);
+	luaL_sandboxthread(inject_state);
 
-	lua_pushcfunction(ExecutorState, loadstring, 0);
-	lua_setglobal(ExecutorState, "loadstring");
+	lua_pushcfunction(inject_state, loadstring, 0);
+	lua_setglobal(inject_state, "loadstring");
 
-	lua_getglobal(ExecutorState, "print");
-	lua_pushstring(ExecutorState, "injected");
-	lua_call(ExecutorState, 1, 0);
+	lua_getglobal(inject_state, "print");
+	lua_pushstring(inject_state, "injected");
+	lua_call(inject_state, 1, 0);
 
 	taskscheduler::request("print('diegosploit ud')");
 }
 
 void tphandler::reset()
 {}
+
 void tphandler::initialize()
-{}
+{
+	std::thread([]() {
+		uintptr_t last_datamodel = taskscheduler::get_datamodel();
+		if (!last_datamodel) {
+			return;
+		}
+		tphandler::initenv(last_datamodel);
+		uintptr_t current_datamodel = 0;
+		while (true)
+		{
+			current_datamodel = RBX::TaskScheduler::GetDatamodel();
+			if (!current_datamodel) {
+				Sleep(10);
+				continue;
+			}
+			if (current_datamodel != last_datamodel)
+			{
+				uintptr_t placeid = taskscheduler::get_placeid(current_datamodel);
+				if (placeid == 0) {
+					tphandler::reset();
+				}
+				else if (placeid > 0) {
+					tphandler::reset();
+					while (taskscheduler::get_gameloaded(current_datamodel) == 15) {
+						Sleep(100);
+					}
+					tphandler::initenv(current_datamodel);
+				}
+				last_datamodel = current_datamodel;
+			}
+			Sleep(10);
+		}
+	})
+}

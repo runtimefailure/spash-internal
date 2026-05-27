@@ -7,6 +7,6 @@
 
 namespace tphandler {
 	void reset();
-	void initenv(uintptr_t Datamodel);
+	void initenv(uintptr_t datamodel);
 	void initialize();
 }
