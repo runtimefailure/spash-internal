@@ -28,9 +28,9 @@ namespace metatable {
     void initialize(lua_State* L)
     {
 
-        Function(L, "setreadonly", 		metatable::setreadonly);
-        Function(L, "isreadonly", 		metatable::isreadonly);
-        Function(L, "getrawmetatable", 	metatable::getrawmetatable);
+        Function(L, "setreadonly", 			metatable::setreadonly);
+        Function(L, "isreadonly", 			metatable::isreadonly);
+        Function(L, "getrawmetatable", 		metatable::getrawmetatable);
     }
 }
 

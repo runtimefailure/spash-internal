@@ -69,6 +69,20 @@ void c_gui::styles()
 	colors[ImGuiCol_ModalWindowDimBg]		= ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
 }
 
+void c_gui::components::editor()
+{
+	ImGui::Begin("editor", nullptr, ImGuiWindowFlags_NoCollapse);
+	ImGui::Text("yh");
+	ImGui::End();
+}
+
+void c_gui::components::explorer()
+{
+	ImGui::Begin("explorer", nullptr, ImGuiWindowFlags_NoCollapse);
+	ImGui::Text("yh");
+	ImGui::End();
+}
+
 void c_gui::render()
 {
 	ImGui::Begin("diegosploit", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize);
@@ -79,4 +93,8 @@ void c_gui::render()
 	ImGui::Separator();
 	ImGui::SliderFloat("menu size", &exploit::internal::ui::dpi, 1.0f, 10.0f);
 	ImGui::End();
+
+	c_gui::components::editor();
+	c_gui::components::explorer();
 }
+

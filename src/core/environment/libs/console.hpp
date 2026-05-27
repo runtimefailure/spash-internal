@@ -100,48 +100,48 @@ namespace console {
 
 	void initialize(lua_State* L)
 	{
-		Function(L, "rconsolecreate", 	console::rconsolecreate);
-		Function(L, "rconsoledestroy", 	console::rconsoledestroy);
-		Function(L, "rconsolesettitle", console::rconsolesettitle);
-		Function(L, "rconsoleprint", 	console::rconsoleprint);
-		Function(L, "rconsoleinput", 	console::empty);
+		Function(L, "rconsolecreate", 		console::rconsolecreate);
+		Function(L, "rconsoledestroy", 		console::rconsoledestroy);
+		Function(L, "rconsolesettitle", 	console::rconsolesettitle);
+		Function(L, "rconsoleprint", 		console::rconsoleprint);
+		Function(L, "rconsoleinput", 		console::empty);
 
-		Function(L, "consolecreate", 	console::rconsolecreate);
-		Function(L, "consoledestroy", 	console::rconsoledestroy);
-		Function(L, "rconsolename", 	console::rconsolesettitle);
-		Function(L, "consolesettitle", 	console::rconsolesettitle);
-		Function(L, "consoleprint", 	console::rconsoleprint);
-		Function(L, "rconsolewarn", 	console::rconsoleprint);
-		Function(L, "consolewarn", 		console::rconsoleprint);
-		Function(L, "rconsoleerror", 	console::rconsoleprint);
-		Function(L, "consoleerror", 	console::rconsoleprint);
-		Function(L, "rconsoleerr", 		console::rconsoleprint);
-		Function(L, "consoleinput", 	console::empty);
-		Function(L, "rconsoleclear", 	console::empty);
-		Function(L, "setfflag", 		console::empty);
-		Function(L, "getfflag", 		console::empty);
-		Function(L, "consoleclear", 	console::empty);
-		Function(L, "rconsolehide", 	console::empty);
-		Function(L, "consolehide", 		console::empty);
-		Function(L, "rconsoleshow", 	console::empty);
-		Function(L, "consoleshow", 		console::empty);
-		Function(L, "rconsoleinfo", 	console::empty);
-		Function(L, "consoleinfo", 		console::empty);
+		Function(L, "consolecreate", 		console::rconsolecreate);
+		Function(L, "consoledestroy", 		console::rconsoledestroy);
+		Function(L, "rconsolename", 		console::rconsolesettitle);
+		Function(L, "consolesettitle", 		console::rconsolesettitle);
+		Function(L, "consoleprint", 		console::rconsoleprint);
+		Function(L, "rconsolewarn", 		console::rconsoleprint);
+		Function(L, "consolewarn", 			console::rconsoleprint);
+		Function(L, "rconsoleerror", 		console::rconsoleprint);
+		Function(L, "consoleerror", 		console::rconsoleprint);
+		Function(L, "rconsoleerr", 			console::rconsoleprint);
+		Function(L, "consoleinput", 		console::empty);
+		Function(L, "rconsoleclear", 		console::empty);
+		Function(L, "setfflag", 			console::empty);
+		Function(L, "getfflag", 			console::empty);
+		Function(L, "consoleclear", 		console::empty);
+		Function(L, "rconsolehide", 		console::empty);
+		Function(L, "consolehide", 			console::empty);
+		Function(L, "rconsoleshow", 		console::empty);
+		Function(L, "consoleshow", 			console::empty);
+		Function(L, "rconsoleinfo", 		console::empty);
+		Function(L, "consoleinfo", 			console::empty);
 
 		lua_newtable(L);
-		TableFunction(L, "create", 		console::rconsolecreate);
-		TableFunction(L, "destroy", 	console::rconsoledestroy);
-		TableFunction(L, "settitle", 	console::rconsolesettitle);
-		TableFunction(L, "name", 		console::rconsolesettitle);
-		TableFunction(L, "print", 		console::rconsoleprint);
-		TableFunction(L, "warn", 		console::rconsoleprint);
-		TableFunction(L, "error", 		console::rconsoleprint);
-		TableFunction(L, "err", 		console::rconsoleprint);
-		TableFunction(L, "input", 		console::empty);
-		TableFunction(L, "clear", 		console::empty);
-		TableFunction(L, "hide", 		console::empty);
-		TableFunction(L, "show", 		console::empty);
-		TableFunction(L, "info", 		console::empty);
+		TableFunction(L, "create", 			console::rconsolecreate);
+		TableFunction(L, "destroy", 		console::rconsoledestroy);
+		TableFunction(L, "settitle", 		console::rconsolesettitle);
+		TableFunction(L, "name", 			console::rconsolesettitle);
+		TableFunction(L, "print", 			console::rconsoleprint);
+		TableFunction(L, "warn", 			console::rconsoleprint);
+		TableFunction(L, "error", 			console::rconsoleprint);
+		TableFunction(L, "err", 			console::rconsoleprint);
+		TableFunction(L, "input", 			console::empty);
+		TableFunction(L, "clear", 			console::empty);
+		TableFunction(L, "hide", 			console::empty);
+		TableFunction(L, "show", 			console::empty);
+		TableFunction(L, "info", 			console::empty);
 		lua_setfield(L, LUA_GLOBALSINDEX, "console");
 	}
 }

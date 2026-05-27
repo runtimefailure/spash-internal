@@ -120,13 +120,13 @@ namespace cache {
     };
     void initialize(lua_State* L)
     {
-        Function(L, "cloneref", cache::cloneref);
-        Function(L, "compareinstances", cache::compareinstances);
+        Function(L, "cloneref", 			cache::cloneref);
+        Function(L, "compareinstances", 	cache::compareinstances);
 
         lua_newtable(L);
-        TableFunction(L, "invalidate", cache::invalidate);
-        TableFunction(L, "iscached", cache::iscached);
-        TableFunction(L, "replace", cache::replace);
+        TableFunction(L, "invalidate", 		cache::invalidate);
+        TableFunction(L, "iscached", 		cache::iscached);
+        TableFunction(L, "replace", 		cache::replace);
         lua_setglobal(L, "cache");
     }
 };

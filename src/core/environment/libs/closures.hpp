@@ -1010,12 +1010,12 @@ namespace closures
 
     void initialize(lua_State* L)
     {
-        Function(L, "loadstring", closures::loadstring);
-        Function(L, "clonefunction", closures::clonefunction);
-        Function(L, "newcclosure", closures::newcclosure);
-        Function(L, "isnewcclosure", closures::isnewcclosure);
-        Function(L, "isexecutorclosure", closures::isexecutorclosure);
-        Function(L, "islclosure", closures::islclosure);
-        Function(L, "iscclosure", closures::iscclosure);
+        Function(L, "loadstring", 			closures::loadstring);
+        Function(L, "clonefunction", 		closures::clonefunction);
+        Function(L, "newcclosure", 			closures::newcclosure);
+        Function(L, "isnewcclosure", 		closures::isnewcclosure);
+        Function(L, "isexecutorclosure", 	closures::isexecutorclosure);
+        Function(L, "islclosure", 			closures::islclosure);
+        Function(L, "iscclosure", 			closures::iscclosure);
     }
 }

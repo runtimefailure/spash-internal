@@ -20,7 +20,7 @@ void bipass()
     auto print = reinterpret_cast<printfunc>(baseAddress + Functions::print);
 	auto datamodel = taskscheduler::get_datamodel();
 
-    print(1, "datamodel: %s", 			taskscheduler::get_datamodel());
+    print(1, "datamodel: %s", 			taskscheduler::get_datamodel()); // cracka technologies
 	print(1, "scriptcontext: %s", 		taskscheduler::get_scriptcontext(datamodel));
 	print(1, "gameloaded: %s",			taskscheduler::get_gameloaded(datamodel));
 	print(0, "%s loaded", 				exploit::name);
