@@ -23,7 +23,7 @@ namespace exploit {
 	inline std::filesystem::path workspace		= exploit / "workspace";
 	inline std::filesystem::path autoexec		= exploit / "autoexec";
 	inline std::filesystem::path logs			= exploit / "logs";
-	inline std::string build 					= "2b1721d47abf49aa";
+	inline std::string build 					= "460909c4fe904aae";
 	inline std::string name 					= "diegosploit";
 	inline lua_State* inject_state;
 
