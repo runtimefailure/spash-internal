@@ -1,4 +1,6 @@
 // version-460909c4fe904aae
+// use the shitty soda cfg dumper to dump this
+// or paste from https://getsoda.netlify.app/hyperion
 #pragma once
 
 #include <cstdint>
