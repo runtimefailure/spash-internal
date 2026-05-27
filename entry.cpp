@@ -11,6 +11,7 @@
 #include "render/render.hpp"
 #include "core/communication/coms.hpp"
 #include "rbx/update/offsets.hpp"
+#include "rbx/update/globals.hpp"
 #include "rbx/taskscheduler/scheduler.hpp"
 
 void bipass()
