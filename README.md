@@ -15,6 +15,7 @@
   <a href="https://github.com/runtimefailure/spash-internal/blob/version-2b1721d47abf49aa/credits.md"><img src="https://img.shields.io/badge/Credits-%23000000.svg?style=for-the-badge&logo=ghostfolio&logoColor=pink" alt="Credits"></a>
   <br/>
   <br/>
+    You need to use github branches to get to a specific roblox version of this Internal.
   <br/>
 </p>
 <br/>
